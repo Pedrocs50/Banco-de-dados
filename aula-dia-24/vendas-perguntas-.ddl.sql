@@ -75,3 +75,15 @@ SELECT
 FROM 
     Venda AS V INNER JOIN 
     ItemVenda AS I ON (V.idVenda = I.idVenda)
+
+SELECT idVenda
+FROM Venda 
+WHERE DAY(dataHora) = 22;
+
+SELECT idVenda
+FROM Venda
+WHERE idVenda IN (SELECT idVenda FROM Venda WHERE DAY(dataHora) >  21)
+INTERSECT
+SELECT idVenda
+FROM Venda
+WHERE idVenda IN (SELECT IdVenda FROM Venda WHERE DAY(dataHora) < 23)
