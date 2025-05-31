@@ -76,6 +76,8 @@ FROM
     Venda AS V INNER JOIN 
     ItemVenda AS I ON (V.idVenda = I.idVenda)
 
+
+-- VENDAS ENTRE O DIA 21 E 23
 SELECT idVenda
 FROM Venda 
 WHERE DAY(dataHora) = 22;
@@ -87,3 +89,15 @@ INTERSECT
 SELECT idVenda
 FROM Venda
 WHERE idVenda IN (SELECT IdVenda FROM Venda WHERE DAY(dataHora) < 23)
+
+-- Sub-consulta avançada, - para cada venda eu estou rodando esta subconsulta e perguntando se tem pelo menos 3 ITENS por venda (LINHA A LINHA)
+SELECT *
+FROM Venda as V
+WHERE (SELECT COUNT(*) FROM ItemVenda AS IT WHERE V.idVenda = IT.idVenda) > 3
+
+SELECT V.idVenda, COUNT(IT.idVenda) AS quantidadeItens
+FROM Venda AS V INNER JOIN ItemVenda AS IT USING(idVenda)
+GROUP BY V.idVenda
+HAVING quantidadeItens > 3;
+
+-- DESAFIO: Quais produtos fizeram parte de todas as vendas? (divisão)
